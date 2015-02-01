@@ -9,5 +9,5 @@ import Data.Functor
 import System.Environment
 
 main = do
-    size <- (read . head) <$> getArgs
-    forM_ (diamond size) putStrLn
+    element <- (read . head) <$> getArgs
+    forM_ (diamond element) putStrLn
