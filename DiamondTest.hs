@@ -24,6 +24,8 @@ main = do
              (\size -> all
                  (\(index, row) -> head (nonEmpty row) == (chr (ord 'A' + index)))
                  (zip [0..(fromEnum size - 1)] (diamond size)))),
+         (label "The diamond is the same mirrored"
+             (\size -> diamond size == (map reverse $ diamond size))),
          (label "The diamond is the same upside-down"
              (\size -> diamond size == (reverse $ diamond size))),
          (label "The first row has one non-empty cell"
