@@ -2,6 +2,7 @@ module Main where
 
 import Diamond
 
+import Control.Monad
 import Test.Hspec
 import Test.QuickCheck
 
@@ -9,8 +10,11 @@ instance Arbitrary DiamondSize where
     arbitrary = elements sizes
 
 main = do
-    quickCheck $ (label "The first cell in the biggest row of the diamond is the largest"
-                   (\size -> [head (diamond size !! fromEnum size)] == (show size)))
+    mapM_ quickCheck
+        [(label "The first cell in the biggest row of the diamond is the largest"
+             (\size -> [head (diamond size !! (fromEnum size - 1))] == (show size))),
+         (label "The diamond has 2*N-1 rows, where N is the size"
+             (\size -> (length $ diamond size) == fromEnum size * 2 - 1))]
 
     hspec $ do
         describe "Diamond" $ do
