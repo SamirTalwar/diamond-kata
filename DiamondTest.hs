@@ -3,11 +3,14 @@ module Main where
 import Diamond
 
 import Control.Monad
+import Data.Char (chr, ord)
 import Test.Hspec
 import Test.QuickCheck
 
 instance Arbitrary DiamondSize where
     arbitrary = elements sizes
+
+nonEmpty = filter (/= ' ')
 
 main = do
     mapM_ quickCheck
@@ -16,7 +19,9 @@ main = do
          (label "The diamond has 2*N-1 rows, where N is the size"
              (\size -> (length $ diamond size) == fromEnum size * 2 - 1)),
          (label "The diamond has 2*N-1 columns, where N is the size"
-             (\size -> all (\row -> length row == fromEnum size * 2 - 1) (diamond size)))]
+             (\size -> all (\row -> length row == fromEnum size * 2 - 1) (diamond size))),
+         (label "The diamond is the same upside-down"
+             (\size -> diamond size == (reverse $ diamond size)))]
 
     hspec $ do
         describe "Diamond" $ do
