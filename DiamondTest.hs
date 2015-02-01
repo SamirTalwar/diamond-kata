@@ -4,6 +4,7 @@ import Diamond
 
 import Control.Monad
 import Data.Char (chr, ord)
+import Data.List (transpose)
 import Test.Hspec
 import Test.QuickCheck
 
@@ -15,11 +16,6 @@ nonEmpty = filter (/= None)
 chop :: [a] -> [a]
 chop [x] = []
 chop xs = (tail . init) xs
-
-transpose :: [[a]] -> [[a]]
-transpose rows
-    | all null rows = []
-    | otherwise     = map head rows : transpose (map tail rows)
 
 main = do
     mapM_ quickCheck

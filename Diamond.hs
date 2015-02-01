@@ -12,4 +12,4 @@ diamond element = mirrorDown $ mirrorLeft $ map pad $ [A .. element]
     mirrorLeft = map (\row -> reverse (tail row) ++ row)
     mirrorDown rows = rows ++ tail (reverse rows)
     pad e = whitespace (fromEnum e - 1) ++ [e] ++ whitespace (fromEnum element - fromEnum e)
-    whitespace n = take n $ repeat None
+    whitespace n = replicate n None
