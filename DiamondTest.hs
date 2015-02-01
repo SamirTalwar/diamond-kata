@@ -10,7 +10,7 @@ import Test.QuickCheck
 instance Arbitrary Element where
     arbitrary = elements sizes
 
-nonEmpty = filter (/= ' ')
+nonEmpty = filter (/= None)
 
 chop :: [a] -> [a]
 chop [x] = []
@@ -29,8 +29,8 @@ main = do
              (\element -> all (\row -> length row == fromEnum element * 2 - 1) (diamond element))),
          (label "The diamond's rows go from A to N, where N is the element"
              (\element -> all
-                 (\(index, row) -> head (nonEmpty row) == (chr (ord 'A' + index)))
-                 (zip [0..(fromEnum element - 1)] (diamond element)))),
+                 (\(index, row) -> head (nonEmpty row) == toEnum index)
+                 (zip [1..(fromEnum element)] (diamond element)))),
          (label "The diamond is the same mirrored"
              (\element -> diamond element == (map reverse $ diamond element))),
          (label "The diamond is the same upside-down"
@@ -51,7 +51,7 @@ main = do
     hspec $ do
         describe "Diamond" $ do
             it "works" $ do
-                diamond D ==
+                map (map char) (diamond D) ==
                   ["   A   ",
                    "  B B  ",
                    " C   C ",

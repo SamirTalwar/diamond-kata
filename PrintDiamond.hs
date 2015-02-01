@@ -10,4 +10,4 @@ import System.Environment
 
 main = do
     element <- (read . head) <$> getArgs
-    forM_ (diamond element) putStrLn
+    mapM_ putStrLn (map (map char) (diamond element))

@@ -9,8 +9,8 @@ sizes = [A .. Z]
 char None = ' '
 char element = head $ show element
 
-diamond :: Element -> [[Char]]
-diamond element = map (map char) $ mirrorDown $ mirrorLeft $ map pad $ [A .. element]
+diamond :: Element -> [[Element]]
+diamond element = mirrorDown $ mirrorLeft $ map pad $ [A .. element]
     where
     mirrorLeft = map (\row -> reverse (tail row) ++ row)
     mirrorDown rows = rows ++ tail (reverse rows)
