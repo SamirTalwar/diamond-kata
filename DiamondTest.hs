@@ -8,7 +8,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 instance Arbitrary Element where
-    arbitrary = elements sizes
+    arbitrary = elements [A .. Z]
 
 nonEmpty = filter (/= None)
 
