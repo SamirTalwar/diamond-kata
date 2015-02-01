@@ -7,7 +7,7 @@ sizes :: [DiamondSize]
 sizes = [A .. Z]
 
 diamond :: DiamondSize -> [[Char]]
-diamond size = map (foldr1 (++) . map show) $ map (take rowLength . repeat) ([A .. previous] ++ [size, previous .. A])
+diamond size = map (foldr1 (++) . map show) $ map (take len . repeat) $ (take len . repeat) size
     where
     previous = pred size
-    rowLength = fromEnum size * 2 - 1
+    len = fromEnum size * 2 - 1
