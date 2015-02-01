@@ -20,6 +20,10 @@ main = do
              (\size -> (length $ diamond size) == fromEnum size * 2 - 1)),
          (label "The diamond has 2*N-1 columns, where N is the size"
              (\size -> all (\row -> length row == fromEnum size * 2 - 1) (diamond size))),
+         (label "The diamond's rows go from A to N, where N is the size"
+             (\size -> all
+                 (\(index, row) -> head (nonEmpty row) == (chr (ord 'A' + index)))
+                 (zip [0..(fromEnum size - 1)] (diamond size)))),
          (label "The diamond is the same upside-down"
              (\size -> diamond size == (reverse $ diamond size)))]
 
