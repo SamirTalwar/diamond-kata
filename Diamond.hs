@@ -10,12 +10,9 @@ char None = ' '
 char element = head $ show element
 
 diamond :: Element -> [[Char]]
-diamond size = map (map char) $ map expand $ ([A .. previous] ++ [size, previous .. A])
+diamond element = map (map char) $ mirrorDown $ mirrorLeft $ map pad $ [A .. element]
     where
-    previous = pred size
-    expand element = padding element ++ row element ++ padding element
-    padding element = whitespace $ fromEnum size - fromEnum element
-    row A = [A]
-    row element = [element] ++ inner element ++ [element]
-    inner element = whitespace $ fromEnum element * 2 - 3
+    mirrorLeft = map (\row -> reverse (tail row) ++ row)
+    mirrorDown rows = rows ++ tail (reverse rows)
+    pad e = whitespace (fromEnum e - 1) ++ [e] ++ whitespace (fromEnum element - fromEnum e)
     whitespace n = take n $ repeat None
