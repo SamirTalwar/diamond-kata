@@ -13,8 +13,9 @@ diamond :: Element -> [[Char]]
 diamond size = map (map char) $ map expand $ ([A .. previous] ++ [size, previous .. A])
     where
     previous = pred size
-    expand element
-        | element == size = (take len . repeat) element
-        | otherwise       = whitespace ++ [element] ++ whitespace
-    whitespace = take (fromEnum size  - 1) $ repeat None
-    len = fromEnum size * 2 - 1
+    expand element = padding element ++ row element ++ padding element
+    padding element = whitespace $ fromEnum size - fromEnum element
+    row A = [A]
+    row element = [element] ++ inner element ++ [element]
+    inner element = whitespace $ fromEnum element * 2 - 3
+    whitespace n = take n $ repeat None

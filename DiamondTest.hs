@@ -12,6 +12,15 @@ instance Arbitrary Element where
 
 nonEmpty = filter (/= ' ')
 
+chop :: [a] -> [a]
+chop [x] = []
+chop xs = (tail . init) xs
+
+transpose :: [[a]] -> [[a]]
+transpose rows
+    | all null rows = []
+    | otherwise     = map head rows : transpose (map tail rows)
+
 main = do
     mapM_ quickCheck
         [(label "The diamond has 2*N-1 rows, where N is the size"
@@ -31,9 +40,13 @@ main = do
          (label "The last row has one non-empty cell"
              (\size -> (length $ nonEmpty $ last $ diamond size) == 1)),
          (label "The first column has one non-empty cell"
-             (\size -> (length $ nonEmpty $ (map head) $ diamond size) == 1)),
+             (\size -> (length $ nonEmpty $ map head $ diamond size) == 1)),
          (label "The last column has one non-empty cell"
-             (\size -> (length $ nonEmpty $ (map last) $ diamond size) == 1))]
+             (\size -> (length $ nonEmpty $ map last $ diamond size) == 1)),
+         (label "All other rows have two non-empty cells"
+             (\size -> all (\row -> (length $ nonEmpty row) == 2) (chop $ diamond size))),
+         (label "All other columns have two non-empty cells"
+             (\size -> all (\column -> (length $ nonEmpty column) == 2) (chop $ transpose $ diamond size)))]
 
     hspec $ do
         describe "Diamond" $ do
@@ -46,6 +59,3 @@ main = do
                    " C   C ",
                    "  B B  ",
                    "   A   "]
-
-        where
-        nonEmpty = filter (/= ' ')
